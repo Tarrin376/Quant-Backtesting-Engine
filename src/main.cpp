@@ -1,8 +1,10 @@
 #include <iostream>
 
-int test();
+#include "./core/Engine.h"
 
 int main() {
-    std::cout << test();
+    std::string fileName{ "test.csv" };
+    Engine engine{ fileName };
+    engine.run();
     return 1;
 }
