@@ -7,7 +7,7 @@
 
 const std::string DataFeed::_prefix{ "../data/" };
 
-DataFeed::DataFeed(std::string& fileName) : _file{ _prefix + fileName } {};
+DataFeed::DataFeed(std::string &fileName) : _file{ _prefix + fileName } {};
 
 OpenHighLowCloseVolume DataFeed::next() {
     std::string line{};

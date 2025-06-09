@@ -5,7 +5,7 @@
 #include "Engine.h"
 #include "OpenHighLowCloseVolume.h"
 
-Engine::Engine(std::string& fileName) : _dataFeed{ fileName } {};
+Engine::Engine(std::string &fileName) : _dataFeed{ fileName } {};
 
 void Engine::run() {
     OpenHighLowCloseVolume data{ _dataFeed.next() };

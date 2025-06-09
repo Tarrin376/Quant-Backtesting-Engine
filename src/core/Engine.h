@@ -7,7 +7,7 @@
 
 class Engine {
 public:
-    Engine(std::string& fileName);
+    Engine(std::string &fileName);
 
     void run();
     

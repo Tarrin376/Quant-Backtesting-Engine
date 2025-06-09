@@ -13,6 +13,6 @@ struct OpenHighLowCloseVolume {
     double low{};
 };
 
-std::ostream& operator<<(std::ostream& out, const OpenHighLowCloseVolume& ohlcv);
+std::ostream& operator<<(std::ostream &out, const OpenHighLowCloseVolume &ohlcv);
 
 #endif
