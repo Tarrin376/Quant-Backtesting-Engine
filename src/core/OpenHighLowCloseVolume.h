@@ -5,12 +5,12 @@
 #include <string>
 
 struct OpenHighLowCloseVolume {
-    std::string date{};
-    double close{};
-    std::int32_t volume{};
     double open{};
     double high{};
     double low{};
+    double close{};
+    std::int32_t volume{};
+    std::string timestamp{};
 };
 
 std::ostream& operator<<(std::ostream &out, const OpenHighLowCloseVolume &ohlcv);

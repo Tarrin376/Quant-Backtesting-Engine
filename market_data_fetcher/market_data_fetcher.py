@@ -1,7 +1,3 @@
-from alpaca.data.historical import CryptoHistoricalDataClient
-from alpaca.data.requests import CryptoBarsRequest
-from alpaca.data.timeframe import TimeFrame
-
 import argparse
 import requests
 import csv
@@ -9,8 +5,6 @@ import csv
 class MarketDataFetcher:
     def __init__(self, start, end, symbol, timeframe):
         self._columns = {'o': 'Open', 'h': 'High', 'l': 'Low', 'c': 'Close', 'v': 'Volume', 't': 'Timestamp'}
-        self._client = CryptoHistoricalDataClient()
-
         self._start = start
         self._end = end
         self._symbol = symbol

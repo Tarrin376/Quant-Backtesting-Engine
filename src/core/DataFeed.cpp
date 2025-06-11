@@ -7,7 +7,7 @@
 
 const std::string DataFeed::_prefix{ "../data/" };
 
-DataFeed::DataFeed(std::string &fileName) : _file{ _prefix + fileName } {};
+DataFeed::DataFeed(std::string &filename) : _file{ _prefix + filename } {};
 
 OpenHighLowCloseVolume DataFeed::next() {
     std::string line{};
@@ -21,14 +21,6 @@ OpenHighLowCloseVolume DataFeed::next() {
 
     OpenHighLowCloseVolume data{};
 
-    std::getline(ss, data.date, ',');
-
-    std::getline(ss, token, ',');
-    data.close = std::stod(token);
-
-    std::getline(ss, token, ',');
-    data.volume = std::stol(token);
-
     std::getline(ss, token, ',');
     data.open = std::stod(token);
 
@@ -37,6 +29,14 @@ OpenHighLowCloseVolume DataFeed::next() {
 
     std::getline(ss, token, ',');
     data.low = std::stod(token);
+
+    std::getline(ss, token, ',');
+    data.close = std::stod(token);
+
+    std::getline(ss, token, ',');
+    data.volume = std::stol(token);
+
+    std::getline(ss, data.timestamp, ',');
 
     return data;
 }

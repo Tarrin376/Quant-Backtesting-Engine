@@ -9,7 +9,8 @@
 
 class DataFeed {
 public:
-    explicit DataFeed(std::string &fileName);
+    explicit DataFeed(std::string &filename);
+    
     OpenHighLowCloseVolume next();
 
 private:

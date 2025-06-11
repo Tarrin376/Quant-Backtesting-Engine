@@ -9,6 +9,9 @@ set(PROJECT_SOURCE_FILES
     src/core/DataFeed.cpp
     src/core/Engine.cpp
     src/core/OpenHighLowCloseVolume.cpp
+    src/strategies/BaseStrategy.cpp
+    src/indicators/Indicators.cpp
+    src/broker/Broker.cpp
 )
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
