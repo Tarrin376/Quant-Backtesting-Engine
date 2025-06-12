@@ -4,18 +4,19 @@ project(backtesting-engine)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(PROJECT_SOURCE_FILES
-    src/main.cpp
-    src/core/DataFeed.cpp
-    src/core/Engine.cpp
-    src/core/OpenHighLowCloseVolume.cpp
-    src/strategies/BaseStrategy.cpp
-    src/indicators/Indicators.cpp
-    src/broker/Broker.cpp
-)
+#Source files
+file(GLOB_RECURSE SOURCES src/*.cpp)
+file(GLOB_RECURSE HEADERS include/*.h)
 
+#Include directories
+include_directories(include)
+
+# Folder where the executable is stored
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCE_FILES})
+# Executable
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
-target_include_directories(${PROJECT_NAME} PUBLIC "${SOURCE_DIR}")
+target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/include")
+
+message(STATUS "Source files: ${SOURCES}")

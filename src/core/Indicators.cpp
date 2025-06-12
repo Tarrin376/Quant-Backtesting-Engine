@@ -1,4 +1,4 @@
-#include "Indicators.h"
+#include "core/Indicators.h"
 
 namespace Indicators {
     double simpleMovingAverage(std::deque<OpenHighLowCloseVolume> &history) {

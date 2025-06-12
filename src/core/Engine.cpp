@@ -2,26 +2,29 @@
 #include <array>
 #include <iostream>
 
-#include "Engine.h"
-#include "OpenHighLowCloseVolume.h"
-#include "../models/StrategySignal.h"
+#include "models/OpenHighLowCloseVolume.h"
+#include "models/StrategySignal.h"
+#include "models/Trade.h"
+#include "core/Engine.h"
 
 Engine::Engine(std::string &filename, BaseStrategy &strategy, Broker &broker) : 
-    _dataFeed{ filename },
+    _csvReader{ filename },
     _strategy{ strategy },
     _broker{ broker } {};
 
 void Engine::run() {
-    OpenHighLowCloseVolume bar{ _dataFeed.next() };
+    OpenHighLowCloseVolume bar{};
     StrategySignal::Type signalType{};
 
-    while ((bar = _dataFeed.next()).timestamp != "") {
+    while ((bar = _csvReader.next()).timestamp != "") {
         if (signalType != StrategySignal::Type::HOLD) {
-            const StrategySignal newSignal{ .type = signalType, .price = bar.close };
+            const StrategySignal newSignal{ .type = signalType, .price = bar.open, .volume = bar.volume };
             _broker.processSignal(newSignal);
         }
 
-        StrategySignal::Type nextSignalType = _strategy.progress(bar);
+        StrategySignal::Type nextSignalType{ _strategy.progress(bar) };
         signalType = nextSignalType;
     }
+
+    std::cout << "Current balance: " << _broker.getPortfolioStats();
 }

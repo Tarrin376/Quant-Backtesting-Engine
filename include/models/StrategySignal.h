@@ -1,6 +1,8 @@
 #ifndef STRATEGY_SIGNAL_H
 #define STRATEGY_SIGNAL_H
 
+#include <cstdint>
+
 struct StrategySignal {
     enum class Type {
         BUY,
@@ -10,6 +12,7 @@ struct StrategySignal {
 
     Type type{ Type::HOLD };
     double price{};
+    double volume{};
 };
 
 #endif

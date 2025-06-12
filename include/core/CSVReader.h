@@ -5,11 +5,11 @@
 #include <string>
 #include <vector>
 
-#include "OpenHighLowCloseVolume.h"
+#include "models/OpenHighLowCloseVolume.h"
 
-class DataFeed {
+class CSVReader {
 public:
-    explicit DataFeed(std::string &filename);
+    explicit CSVReader(std::string &filename);
     
     OpenHighLowCloseVolume next();
 

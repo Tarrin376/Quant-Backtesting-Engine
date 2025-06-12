@@ -3,9 +3,10 @@
 
 #include <string>
 
-#include "DataFeed.h"
-#include "../strategies/BaseStrategy.h"
-#include "../broker/Broker.h"
+#include "CSVReader.h"
+#include "BaseStrategy.h"
+#include "Portfolio.h"
+#include "Broker.h"
 
 class Engine {
 public:
@@ -14,7 +15,7 @@ public:
     void run();
     
 private:
-    DataFeed _dataFeed;
+    CSVReader _csvReader;
     BaseStrategy _strategy;
     Broker _broker;
 };

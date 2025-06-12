@@ -3,7 +3,7 @@
 
 #include <deque>
 
-#include "../core/OpenHighLowCloseVolume.h"
+#include "models/OpenHighLowCloseVolume.h"
 
 namespace Indicators {
     double simpleMovingAverage(std::deque<OpenHighLowCloseVolume> &history);
