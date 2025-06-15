@@ -14,7 +14,6 @@ public:
     void recordTrade(Trade& trade);
     void decreaseBalance(double amount);
     void increaseBalance(double amount);
-
     double getCurrentBalance();
     const Stats& getStats();
 
@@ -27,6 +26,8 @@ private:
     Position _position{};
     Stats _stats{};
 
+    int getNumWinningPositions();
+    int getNumLosingPositions();
     void closePosition(Trade& trade);
 };
 

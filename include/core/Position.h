@@ -11,7 +11,7 @@ public:
     Position& operator=(const Position&) = default;
 
     bool update(Trade& trade);
-    double getRealisedPnL();
+    double getRealisedPnL() const;
     void close();
 
 private:

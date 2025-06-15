@@ -7,7 +7,6 @@ bool Position::update(Trade& trade) {
         _entryTime = Time::now();
     }
 
-    _lastUpdated = Time::now();
     if (trade.type == StrategySignal::Type::BUY) {
         // If going long, increase position size by trade quantity. If going short, update realised PnL
         if (_size >= 0) {
@@ -29,11 +28,12 @@ bool Position::update(Trade& trade) {
     return false;
 }
 
-double Position::getRealisedPnL() {
+double Position::getRealisedPnL() const {
     return _realisedPnL;
 }
 
 void Position::close() {
+    _exitTime = Time::now();
     _closed = true;
 }
 

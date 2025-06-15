@@ -32,12 +32,43 @@ double Portfolio::getCurrentBalance() {
 }
 
 const Stats& Portfolio::getStats() {
+    _stats.percReturn = ((_currentBalance - _initialBalance) / _initialBalance) * 100;
     _stats.initialCapital = _initialBalance;
     _stats.finalCapital = _currentBalance;
     _stats.numTrades = _tradeHistory.size();
-    _stats.percReturn = ((_currentBalance - _initialBalance) / _initialBalance) * 100;
     _stats.totalProfit = _currentBalance - _initialBalance;
+    
+    int winning = getNumWinningPositions();
+    int losing = getNumLosingPositions();
+
+    _stats.winningPositions = winning;
+    _stats.losingPositions = losing;
+    _stats.winRate = std::max(winning, losing) == 0 ? 0 : (static_cast<double>(winning) / (winning + losing)) * 100;
     return _stats;
+}
+
+int Portfolio::getNumWinningPositions() {
+    int winningPositions{};
+
+    for (const Position& position : _closedPositions) {
+        if (position.getRealisedPnL() > 0) {
+            winningPositions++;
+        }
+    }
+
+    return winningPositions;
+}
+
+int Portfolio::getNumLosingPositions() {
+    int losingPositions{};
+
+    for (const Position& position : _closedPositions) {
+        if (position.getRealisedPnL() < 0) {
+            losingPositions++;
+        }
+    }
+
+    return losingPositions;
 }
 
 void Portfolio::closePosition(Trade& trade) {

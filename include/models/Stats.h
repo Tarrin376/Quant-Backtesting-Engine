@@ -6,11 +6,11 @@
 
 struct Stats {
     double percReturn{};
-    double winRate{};
     double initialCapital{};
     double finalCapital{};
     int numTrades{};
     double totalProfit{};
+    double winRate{};
     int winningPositions{};
     int losingPositions{};
 
