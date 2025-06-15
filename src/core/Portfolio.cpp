@@ -36,7 +36,7 @@ const Stats& Portfolio::getStats() {
     _stats.finalCapital = _currentBalance;
     _stats.numTrades = _tradeHistory.size();
     _stats.percReturn = ((_currentBalance - _initialBalance) / _initialBalance) * 100;
-    _stats.totalProfit = (_currentBalance - _initialBalance);
+    _stats.totalProfit = _currentBalance - _initialBalance;
     return _stats;
 }
 
