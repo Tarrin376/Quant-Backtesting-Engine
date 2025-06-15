@@ -24,7 +24,7 @@ void Portfolio::decreaseBalance(double amount) {
 
 void Portfolio::increaseBalance(double amount) {
     assert(amount >= 0);
-    _currentBalance += std::max(0.0, amount);
+    _currentBalance += amount;
 }
 
 double Portfolio::getCurrentBalance() {
