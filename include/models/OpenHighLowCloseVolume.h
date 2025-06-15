@@ -10,9 +10,11 @@ struct OpenHighLowCloseVolume {
     double low{};
     double close{};
     double volume{};
+    
     std::string timestamp{};
+    bool isHeader{ false };
 
-    friend std::ostream& operator<<(std::ostream &out, const OpenHighLowCloseVolume &ohlcv) {
+    friend std::ostream& operator<<(std::ostream& out, const OpenHighLowCloseVolume& ohlcv) {
         return out << " Open: " << ohlcv.open << " High: " << ohlcv.high << " Low: " << ohlcv.low << 
         " Close: " << ohlcv.close << " Volume: " << ohlcv.volume << " Timestamp: " << ohlcv.timestamp;
     }

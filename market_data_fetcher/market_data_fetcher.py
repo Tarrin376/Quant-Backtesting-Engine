@@ -14,6 +14,7 @@ class MarketDataFetcher:
         with open(f'../data/{self._symbol.lower()}.csv', 'w', newline='') as df:
             cw = csv.writer(df)
             reached_end = False
+            first_page = True
             page_token = ""
 
             while not reached_end:
@@ -22,14 +23,17 @@ class MarketDataFetcher:
                 ohlc_data = response['bars'][f'{self._symbol}/USD']
                 next_page_token = response['next_page_token']
 
-                self._write_to_csv(ohlc_data, cw)
+                self._write_to_csv(ohlc_data, cw, first_page)
                 page_token = next_page_token
+                first_page = False
 
                 if not page_token:
                     reached_end = True
     
-    def _write_to_csv(self, ohlc_data, cw):
-        cw.writerow(self._columns.values())
+    def _write_to_csv(self, ohlc_data, cw, first_page):
+        if first_page:
+            cw.writerow(self._columns.values())
+        
         for row in ohlc_data:
             filtered_row = [row[col] for col in self._columns]
             cw.writerow(filtered_row)
@@ -37,7 +41,7 @@ class MarketDataFetcher:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-s', '--start', help='start date for historical data in YYYY-MM-DD', default='2022-01-01')
-    parser.add_argument('-e', '--end', help='end date for historical data in YYYY-MM-DD', default='2022-01-02')
+    parser.add_argument('-e', '--end', help='end date for historical data in YYYY-MM-DD', default='2022-01-30')
     parser.add_argument('-sym', '--symbol', help='Crypto symbol to fetch historical data for e.g. BTC or ETH', default='BTC')
     parser.add_argument('-tf', '--timeframe', help='The frequency of the OHLC data e.g. [1-59]Min, [1-23]Hour, [number]Day, [number]Week, [1-12]Month', default='1Min')
     parser.print_help()

@@ -1,50 +1,60 @@
 #include <iostream>
+#include <cassert>
 
 #include "core/Broker.h"
+#include "utils/Math.h"
 
-Broker::Broker(double tradeCommission, Portfolio &portfolio) : 
+Broker::Broker(double tradeCommission, Portfolio& portfolio) : 
     _tradeCommission{ tradeCommission }, 
-    _portfolio{ portfolio } {};
+    _portfolio{ portfolio } {}
 
-void Broker::processSignal(const StrategySignal &signal) {
+void Broker::processSignal(const StrategySignal& signal) {
     // The updated trade price after applying slippage
-    double slippagePrice = calculateSlippage(signal.price);
+    double slippagePrice = calculateSlippage(signal.price, signal.type);
     // Number of shares to buy/sell in this trade
     double quantity = calculateTradeQuantity(slippagePrice, signal.volume);
+
+    if (Math::isNearZero(quantity)) {
+        return;
+    }
 
     Trade newTrade = Trade{ 
         .type = signal.type, 
         .quantity = quantity, 
-        .price = slippagePrice, 
-        .fee = _tradeCommission
+        .price = slippagePrice
     };
 
-    _portfolio.decreaseBalance(newTrade.fee);
-    // Add the trade to the trade history for this portfolio
-    _portfolio._tradeHistory.push_back(newTrade);
-    // Update the current position accordingly with the new trade
-    _portfolio._position.update(newTrade);
-
-    // If the position has closed, log it and create a new position
-    if (_portfolio._position.isClosed()) {
-        _portfolio._closedPositions.push_back(_portfolio._position);
-        _portfolio.increaseBalance(_portfolio._position.getRealisedPnL());
-        _portfolio._position.reset();
+    _portfolio.decreaseBalance(_tradeCommission);
+    if (newTrade.type == StrategySignal::Type::BUY) {
+        _portfolio.decreaseBalance(newTrade.quantity * newTrade.price);
+    } else {
+        _portfolio.increaseBalance(newTrade.quantity * newTrade.price);
     }
+
+    _portfolio.recordTrade(newTrade);
 }
 
-double Broker::getPortfolioStats() {
-    return _portfolio._currentBalance;
+const Stats& Broker::getPortfolioStats() {
+    return _portfolio.getStats();
 }
 
-double Broker::calculateTradeQuantity(double price, double volume) {
-    // Max USD you can spend: 10% of volume's notional, capped by current balance, minus commission
-    double maxUSD = std::min(0.1 * volume * price, _portfolio._currentBalance) - _tradeCommission;
+double Broker::calculateTradeQuantity(double price, double marketVolume) {
+    assert(!Math::isNearZero(price));
 
-    // Number of shares to buy/sell in this trade
-    return std::max(maxUSD / price, 0.0);
+    // Capital constraint: 10% of capital, minus commission
+    double maxCapital = _VOLUME_PERC * _portfolio.getCurrentBalance();
+    double capitalAfterCommission = std::max(0.0, maxCapital - _tradeCommission);
+    double maxQtyByCapital = capitalAfterCommission / price;
+
+    // Liquidity constraint: 10% of market volume * price, minus commission
+    double maxNotionalByLiquidity = _VOLUME_PERC * marketVolume * price;
+    double liquidityAfterCommission = std::max(0.0, maxNotionalByLiquidity - _tradeCommission);
+    double maxQtyByLiquidity = liquidityAfterCommission / price;
+
+    // Final quantity is minimum of both constraints
+    return std::max(0.0, std::min(maxQtyByCapital, maxQtyByLiquidity));
 }
 
-constexpr double Broker::calculateSlippage(double price) {
-    return 1.03 * price;
+constexpr double Broker::calculateSlippage(double price, StrategySignal::Type type) {
+    return (type == StrategySignal::Type::BUY) ? price * (1 + _SLIPPAGE) : price * (1 - _SLIPPAGE);
 }

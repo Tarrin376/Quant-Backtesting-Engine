@@ -7,17 +7,18 @@
 #include "BaseStrategy.h"
 #include "Portfolio.h"
 #include "Broker.h"
+#include "DataFeed.h"
 
 class Engine {
 public:
-    Engine(std::string &filename, BaseStrategy &strategy, Broker &broker);
+    Engine(DataFeed& dataFeed, BaseStrategy& strategy, Broker& broker);
 
     void run();
     
 private:
-    CSVReader _csvReader;
-    BaseStrategy _strategy;
-    Broker _broker;
+    DataFeed& _dataFeed;
+    BaseStrategy& _strategy;
+    Broker& _broker;
 };
 
 #endif

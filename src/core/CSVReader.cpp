@@ -1,47 +1,22 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <sstream>
-
 #include "core/CSVReader.h"
 
 const std::string CSVReader::_prefix{ "../data/" };
 
-CSVReader::CSVReader(std::string &filename) : _file{ _prefix + filename } {};
+CSVReader::CSVReader(std::string& filename) : _file{ _prefix + filename } {}
 
-OpenHighLowCloseVolume CSVReader::next() {
-    std::string line{};
+std::string_view CSVReader::getLine() {
+    return _line;
+}
 
-    while (std::getline(_file, line)) {
-        // Skip empty lines or header line
-        if (_firstLine || line.empty()) {
-            _firstLine = false;
-            continue;
-        }
+bool CSVReader::isFirstLine() {
+    return _firstLine;
+}
 
-        std::stringstream ss{ line };
-        std::string token{};
-        OpenHighLowCloseVolume data{};
-
-        std::getline(ss, token, ',');
-        data.open = std::stod(token);
-
-        std::getline(ss, token, ',');
-        data.high = std::stod(token);
-
-        std::getline(ss, token, ',');
-        data.low = std::stod(token);
-
-        std::getline(ss, token, ',');
-        data.close = std::stod(token);
-
-        std::getline(ss, token, ',');
-        data.volume = std::stod(token);
-
-        std::getline(ss, data.timestamp, ',');
-
-        return data;
+bool CSVReader::next() {
+    bool readSuccess = !std::getline(_file, _line).fail();
+    if (_firstLine) {
+        _firstLine = false;
     }
 
-    return OpenHighLowCloseVolume{};
+    return readSuccess;
 }

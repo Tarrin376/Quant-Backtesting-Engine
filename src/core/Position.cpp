@@ -2,60 +2,44 @@
 #include "utils/Time.h"
 #include "utils/Math.h"
 
-Position::Position() : _lastUpdated{ Time::now() } {};
-
-void Position::update(Trade &trade) {
+bool Position::update(Trade& trade) {
     if (_entryTime.empty()) {
         _entryTime = Time::now();
     }
 
+    _lastUpdated = Time::now();
     if (trade.type == StrategySignal::Type::BUY) {
         // If going long, increase position size by trade quantity. If going short, update realised PnL
         if (_size >= 0) {
             _lots.push_back(trade);
             _size += trade.quantity;
         } else {
-            updateRealisedPnL(trade);
+            return updateRealisedPnL(trade);
         }
     } else {
         // If going short, decrease position size by trade quantity. If going long, update realised PnL
-        if (_size >= 0) {
+        if (_size <= 0) {
             _lots.push_back(trade);
             _size -= trade.quantity;
         } else {
-            updateRealisedPnL(trade);
+            return updateRealisedPnL(trade);
         }
     }
 
-    _lastUpdated = Time::now();
-    if (Math::isNearZero(_size, _EPS)) {
-        _exitTime = Time::now();
-        _closed = true;
-    }
-}
-
-void Position::reset() {
-    _size = 0;
-    _lots.clear();
-    _closed = false;
-    _realisedPnL = 0;
-
-    _entryTime = "";
-    _exitTime = "";
-    _lastUpdated = "";
-}
-
-bool Position::isClosed() {
-    return _closed;
+    return false;
 }
 
 double Position::getRealisedPnL() {
     return _realisedPnL;
 }
 
-void Position::updateRealisedPnL(Trade &trade) {
+void Position::close() {
+    _closed = true;
+}
+
+bool Position::updateRealisedPnL(Trade& trade) {
     while (trade.quantity > 0 && !_lots.empty()) {
-        Trade &lot = _lots.front();
+        Trade& lot = _lots.front();
         double matched = std::min(trade.quantity, lot.quantity);
 
         double pnl = (lot.type == StrategySignal::Type::SELL ? lot.price - trade.price : trade.price - lot.price) * matched;
@@ -68,8 +52,10 @@ void Position::updateRealisedPnL(Trade &trade) {
         trade.quantity -= matched;
         
         // If lot has been matched, remove from front of queue
-        if (Math::isNearZero(lot.quantity, _EPS)) {
+        if (Math::isNearZero(lot.quantity)) {
             _lots.pop_front();
         }
     }
+
+    return trade.quantity > 0;
 }

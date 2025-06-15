@@ -2,7 +2,7 @@
 
 #include "core/Engine.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     std::string filename{};
     double tradeCommission{};
     double initialBalance{};
@@ -19,11 +19,14 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    CSVReader csvReader{ filename };
+    DataFeed dataFeed{ csvReader };
+
     Portfolio portfolio{ initialBalance };
     Broker broker{ tradeCommission, portfolio };
     BaseStrategy strategy{};
 
-    Engine engine{ filename, strategy, broker };
+    Engine engine{ dataFeed, strategy, broker };
     engine.run();
     return 1;
 }

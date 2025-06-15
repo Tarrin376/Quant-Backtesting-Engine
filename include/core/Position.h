@@ -8,16 +8,14 @@
 
 class Position {
 public:
-    Position();
+    Position& operator=(const Position&) = default;
 
-    void update(Trade &trade);
-    void reset();
-    bool isClosed();
+    bool update(Trade& trade);
     double getRealisedPnL();
+    void close();
 
 private:
-    const double _EPS = 1e-8;
-    int _size{};
+    double _size{};
 
     std::deque<Trade> _lots{};
     bool _closed{ false };
@@ -27,7 +25,7 @@ private:
     std::string _exitTime{};
     std::string _lastUpdated{};
 
-    void updateRealisedPnL(Trade &trade);
+    bool updateRealisedPnL(Trade& trade);
 };
 
 #endif

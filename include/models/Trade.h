@@ -9,7 +9,6 @@ struct Trade {
     StrategySignal::Type type{ StrategySignal::Type::HOLD };
     double quantity{};
     double price{};
-    double fee{};
     std::string timestamp{};
 };
 
