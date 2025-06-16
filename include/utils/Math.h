@@ -4,7 +4,7 @@
 #include <cmath>
 
 namespace Math {
-    inline bool isNearZero(double value) {
+    constexpr inline bool isNearZero(double value) {
         return value >= -1e-8 && value <= 1e-8;
     }
 }

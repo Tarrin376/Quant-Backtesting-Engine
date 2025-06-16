@@ -11,13 +11,14 @@ public:
     Position& operator=(const Position&) = default;
 
     bool update(Trade& trade);
+    double getSize() const;
     double getRealisedPnL() const;
     void close();
 
 private:
     double _size{};
-
     std::deque<Trade> _lots{};
+
     bool _closed{ false };
     double _realisedPnL{};
 

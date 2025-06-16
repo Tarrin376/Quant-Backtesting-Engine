@@ -13,6 +13,7 @@ struct StrategySignal {
     Type type{ Type::HOLD };
     double price{};
     double volume{};
+    bool closeAll{ false };
 };
 
 #endif

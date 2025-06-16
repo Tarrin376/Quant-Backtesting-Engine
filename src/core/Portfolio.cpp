@@ -1,4 +1,5 @@
 #include <cassert>
+#include <iostream>
 
 #include "core/Portfolio.h"
 
@@ -27,8 +28,12 @@ void Portfolio::increaseBalance(double amount) {
     _currentBalance += amount;
 }
 
-double Portfolio::getCurrentBalance() {
+double Portfolio::getCurrentBalance() const {
     return _currentBalance;
+}
+
+double Portfolio::getPositionSize() const {
+    return _position.getSize();
 }
 
 const Stats& Portfolio::getStats() {
@@ -78,5 +83,7 @@ void Portfolio::closePosition(Trade& trade) {
 
     // Create a new position with the trade that contains the remaining quantity that wasn't matched
     _position = Position{};
-    _position.update(trade);
+    if (trade.quantity > 0) {
+        _position.update(trade);
+    }
 }

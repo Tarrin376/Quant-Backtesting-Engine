@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "core/Position.h"
 #include "utils/Time.h"
 #include "utils/Math.h"
@@ -26,6 +28,10 @@ bool Position::update(Trade& trade) {
     }
 
     return false;
+}
+
+double Position::getSize() const {
+    return _size;
 }
 
 double Position::getRealisedPnL() const {
@@ -57,5 +63,5 @@ bool Position::updateRealisedPnL(Trade& trade) {
         }
     }
 
-    return trade.quantity > 0;
+    return Math::isNearZero(_size);
 }

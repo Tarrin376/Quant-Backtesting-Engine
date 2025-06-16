@@ -11,7 +11,9 @@ Engine::Engine(DataFeed& dataFeed, BaseStrategy& strategy, Broker& broker) :
     _broker{ broker } {}
 
 void Engine::run() {
+    OpenHighLowCloseVolume prevBar{};
     OpenHighLowCloseVolume bar{};
+
     StrategySignal::Type signalType{};
     int datasetSize{ 0 };
 
@@ -28,7 +30,10 @@ void Engine::run() {
 
         StrategySignal::Type nextSignalType{ _strategy.progress(bar) };
         signalType = nextSignalType;
+        prevBar = bar;
     }
+
+    _broker.finalise(prevBar);
 
     std::cout << '\n' << _broker.getPortfolioStats() << '\n'; 
     std::cout << "Dataset size: " << datasetSize << '\n';

@@ -2,6 +2,7 @@
 #define BROKER_H
 
 #include "models/StrategySignal.h"
+#include "models/OpenHighLowCloseVolume.h"
 #include "models/Trade.h"
 #include "models/Stats.h"
 #include "Portfolio.h"
@@ -11,6 +12,7 @@ public:
     Broker(double tradeCommission, Portfolio& portfolio);
 
     void processSignal(const StrategySignal& signal);
+    void finalise(const OpenHighLowCloseVolume& lastBar);
     const Stats& getPortfolioStats();
 
 private:

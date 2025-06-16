@@ -12,7 +12,7 @@ void Broker::processSignal(const StrategySignal& signal) {
     // The updated trade price after applying slippage
     double slippagePrice = calculateSlippage(signal.price, signal.type);
     // Number of shares to buy/sell in this trade
-    double quantity = calculateTradeQuantity(slippagePrice, signal.volume);
+    double quantity = signal.closeAll ? std::abs(_portfolio.getPositionSize()) : calculateTradeQuantity(slippagePrice, signal.volume);
 
     if (Math::isNearZero(quantity)) {
         return;
@@ -32,6 +32,20 @@ void Broker::processSignal(const StrategySignal& signal) {
     }
 
     _portfolio.recordTrade(newTrade);
+}
+
+void Broker::finalise(const OpenHighLowCloseVolume& lastBar) {
+    if (Math::isNearZero(_portfolio.getPositionSize())) {
+        return;
+    }
+
+    StrategySignal exitSignal = {
+        .type = _portfolio.getPositionSize() > 0 ? StrategySignal::Type::SELL : StrategySignal::Type::BUY,
+        .price = lastBar.close,
+        .closeAll = true
+    };
+
+    processSignal(exitSignal);
 }
 
 const Stats& Broker::getPortfolioStats() {
