@@ -1,8 +1,6 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include <string>
-
 #include "strategies/BaseStrategy.h"
 #include "CSVReader.h"
 #include "Portfolio.h"
@@ -11,7 +9,7 @@
 
 class Engine {
 public:
-    Engine(DataFeed& dataFeed, BaseStrategy& strategy, Broker& broker);
+    Engine(DataFeed& dataFeed, BaseStrategy& strategy, Broker& broker, int executionDelay);
 
     void run();
     
@@ -19,6 +17,7 @@ private:
     DataFeed& _dataFeed;
     BaseStrategy& _strategy;
     Broker& _broker;
+    int _executionDelay;
 };
 
 #endif

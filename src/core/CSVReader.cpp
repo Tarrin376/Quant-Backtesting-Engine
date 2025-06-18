@@ -2,7 +2,7 @@
 
 const std::string CSVReader::_prefix{ "../data/" };
 
-CSVReader::CSVReader(std::string& filename) : _file{ _prefix + filename } {}
+CSVReader::CSVReader(std::string& fileName) : _file{ _prefix + fileName } {}
 
 std::string_view CSVReader::getLine() {
     return _line;

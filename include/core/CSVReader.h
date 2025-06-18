@@ -9,7 +9,7 @@
 
 class CSVReader {
 public:
-    explicit CSVReader(std::string &filename);
+    explicit CSVReader(std::string &fileName);
     
     bool next();
     bool isFirstLine();

@@ -20,7 +20,7 @@ namespace Indicators {
         return total / effectivePeriod;
     }
 
-    std::optional<BollingerBands> bollingerBands(const std::vector<OpenHighLowCloseVolume>& history, double stdDevMultiplier, std::size_t period) {
+    std::optional<BollingerBands> bollingerBands(const std::vector<OpenHighLowCloseVolume>& history, std::size_t period, double stdDevMultiplier) {
         std::size_t historySize{ history.size() };
         if (historySize == 0) {
             return {};
@@ -31,8 +31,8 @@ namespace Indicators {
         double variance = 0.0;
 
         for (std::size_t i = historySize - effectivePeriod; i < historySize; ++i) {
-            double diff = history[i].close - sma;
-            variance += diff * diff;
+            double dist = history[i].close - sma;
+            variance += dist * dist;
         }
 
         double stdDev = std::sqrt(variance / effectivePeriod);
@@ -43,13 +43,14 @@ namespace Indicators {
         };
     }
 
-    std::optional<Stochastic> stochasticOscillator(const std::vector<OpenHighLowCloseVolume>& history, std::size_t period) {
+    std::optional<Stochastic> stochasticOscillator(const std::vector<OpenHighLowCloseVolume>& history, std::size_t period, std::size_t d) {
         std::size_t historySize{ history.size() };
-        if (historySize == 0) {
+        std::size_t effectivePeriod = std::min(period, historySize);
+
+        if (historySize == 0 || effectivePeriod < d) {
             return {};
         }
 
-        std::size_t effectivePeriod = std::min(period, historySize);
         double percK{};
         double percD{};
 
@@ -61,7 +62,7 @@ namespace Indicators {
             low = std::min(low, history[i].low);
         }
 
-        for (std::size_t i = historySize - effectivePeriod; i < historySize; i++) {
+        for (std::size_t i = historySize - d; i < historySize; i++) {
             double curPercK = high == low ? 50.0 : (history[i].close - low) / (high - low) * 100;
             percD += curPercK;
 
@@ -70,6 +71,6 @@ namespace Indicators {
             }
         }
 
-        return Stochastic{ .percK = percK, .percD = percD / effectivePeriod };
+        return Stochastic{ .percK = percK, .percD = percD / d };
     }
 }

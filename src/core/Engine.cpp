@@ -5,32 +5,39 @@
 #include "models/Trade.h"
 #include "core/Engine.h"
 
-Engine::Engine(DataFeed& dataFeed, BaseStrategy& strategy, Broker& broker) : 
+Engine::Engine(DataFeed& dataFeed, BaseStrategy& strategy, Broker& broker, int executionDelay) : 
     _dataFeed{ dataFeed },
     _strategy{ strategy },
-    _broker{ broker } {}
+    _broker{ broker },
+    _executionDelay{ executionDelay } {}
 
 void Engine::run() {
     OpenHighLowCloseVolume prevBar{};
     OpenHighLowCloseVolume bar{};
 
     StrategySignal::Type signalType{ StrategySignal::Type::HOLD };
+    int timeoutPeriod{ 0 };
     int datasetSize{ 0 };
 
     while ((bar = _dataFeed.next()).timestamp != "") {
         if (bar.isHeader) {
             continue;
         }
-
+        
+        timeoutPeriod = std::max(0, timeoutPeriod - 1);
         datasetSize++;
-        if (signalType != StrategySignal::Type::HOLD) {
+
+        if (signalType != StrategySignal::Type::HOLD && timeoutPeriod == 0) {
             const StrategySignal newSignal{ .type = signalType, .price = bar.open, .volume = bar.volume };
             _broker.processSignal(newSignal);
         }
 
-        StrategySignal::Type nextSignalType{ _strategy.progress(bar) };
-        signalType = nextSignalType;
-        prevBar = bar;
+        if (timeoutPeriod == 0) {
+            StrategySignal::Type nextSignalType{ _strategy.progress(bar) };
+            timeoutPeriod = _executionDelay + 1;
+            signalType = nextSignalType;
+            prevBar = bar;
+        }
     }
 
     _broker.finalise(prevBar);

@@ -5,7 +5,7 @@
 
 class MovingAveragePriceCrossover : public BaseStrategy {
 public:
-    explicit MovingAveragePriceCrossover(std::size_t historyWindowSize);
+    explicit MovingAveragePriceCrossover(std::size_t period);
     StrategySignal::Type progress(const OpenHighLowCloseVolume& bar) override;
 };
 
