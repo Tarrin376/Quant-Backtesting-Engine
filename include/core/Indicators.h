@@ -9,9 +9,9 @@
 #include "models/Stochastic.h"
 
 namespace Indicators {
-    double simpleMovingAverage(const std::vector<OpenHighLowCloseVolume>& history, std::size_t period = 20);
-    std::optional<BollingerBands> bollingerBands(const std::vector<OpenHighLowCloseVolume>& history, double stdDevMultiplier = 2, std::size_t period = 20);
-    std::optional<Stochastic> stochasticOscillator(const std::vector<OpenHighLowCloseVolume>& history, std::size_t period = 3);
+    double simpleMovingAverage(const std::vector<OpenHighLowCloseVolume>& history, std::size_t period = 20ULL);
+    std::optional<BollingerBands> bollingerBands(const std::vector<OpenHighLowCloseVolume>& history, double stdDevMultiplier = 2, std::size_t period = 20ULL);
+    std::optional<Stochastic> stochasticOscillator(const std::vector<OpenHighLowCloseVolume>& history, std::size_t period = 3ULL);
 }
 
 #endif

@@ -27,8 +27,8 @@ private:
     Position _position{};
     Stats _stats{};
 
-    int getNumWinningPositions();
-    int getNumLosingPositions();
+    int getNumWinningPositions() const;
+    int getNumLosingPositions() const;
     void closePosition(Trade& trade);
 };
 

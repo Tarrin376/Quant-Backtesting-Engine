@@ -9,7 +9,6 @@ Portfolio::Portfolio(double initialBalance) :
 
 void Portfolio::recordTrade(Trade& trade) {
     _tradeHistory.push_back(trade);
-    // Update the current position accordingly with the new trade
     bool close = _position.update(trade);
     
     // If the position is ready to close, close it
@@ -48,11 +47,11 @@ const Stats& Portfolio::getStats() {
 
     _stats.winningPositions = winning;
     _stats.losingPositions = losing;
-    _stats.winRate = std::max(winning, losing) == 0 ? 0 : (static_cast<double>(winning) / (winning + losing)) * 100;
+    _stats.winRate = winning + losing == 0 ? 0 : (static_cast<double>(winning) / (winning + losing)) * 100;
     return _stats;
 }
 
-int Portfolio::getNumWinningPositions() {
+int Portfolio::getNumWinningPositions() const {
     int winningPositions{};
 
     for (const Position& position : _closedPositions) {
@@ -64,7 +63,7 @@ int Portfolio::getNumWinningPositions() {
     return winningPositions;
 }
 
-int Portfolio::getNumLosingPositions() {
+int Portfolio::getNumLosingPositions() const {
     int losingPositions{};
 
     for (const Position& position : _closedPositions) {

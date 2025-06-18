@@ -14,7 +14,7 @@ void Engine::run() {
     OpenHighLowCloseVolume prevBar{};
     OpenHighLowCloseVolume bar{};
 
-    StrategySignal::Type signalType{};
+    StrategySignal::Type signalType{ StrategySignal::Type::HOLD };
     int datasetSize{ 0 };
 
     while ((bar = _dataFeed.next()).timestamp != "") {

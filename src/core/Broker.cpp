@@ -1,11 +1,11 @@
-#include <iostream>
 #include <cassert>
 
 #include "core/Broker.h"
 #include "utils/Math.h"
 
-Broker::Broker(double tradeCommission, Portfolio& portfolio) : 
-    _tradeCommission{ tradeCommission }, 
+Broker::Broker(double tradeCommission, double allocationPerc, Portfolio& portfolio) : 
+    _tradeCommission{ tradeCommission },
+    _allocationPerc{ allocationPerc },
     _portfolio{ portfolio } {}
 
 void Broker::processSignal(const StrategySignal& signal) {
@@ -55,13 +55,13 @@ const Stats& Broker::getPortfolioStats() {
 double Broker::calculateTradeQuantity(double price, double marketVolume) {
     assert(!Math::isNearZero(price));
 
-    // Capital constraint: 10% of capital, minus commission
-    double maxCapital = _VOLUME_PERC * _portfolio.getCurrentBalance();
+    // Capital constraint: <_allocationPerc>% of portfolio capital, minus commission
+    double maxCapital = _allocationPerc * _portfolio.getCurrentBalance();
     double capitalAfterCommission = std::max(0.0, maxCapital - _tradeCommission);
     double maxQtyByCapital = capitalAfterCommission / price;
 
-    // Liquidity constraint: 10% of market volume * price, minus commission
-    double maxNotionalByLiquidity = _VOLUME_PERC * marketVolume * price;
+    // Liquidity constraint: <_allocationPerc>% of market volume * price, minus commission
+    double maxNotionalByLiquidity = _allocationPerc * marketVolume * price;
     double liquidityAfterCommission = std::max(0.0, maxNotionalByLiquidity - _tradeCommission);
     double maxQtyByLiquidity = liquidityAfterCommission / price;
 

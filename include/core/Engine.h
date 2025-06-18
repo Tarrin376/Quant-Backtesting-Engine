@@ -3,8 +3,8 @@
 
 #include <string>
 
+#include "strategies/BaseStrategy.h"
 #include "CSVReader.h"
-#include "BaseStrategy.h"
 #include "Portfolio.h"
 #include "Broker.h"
 #include "DataFeed.h"
