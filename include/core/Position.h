@@ -24,7 +24,6 @@ private:
 
     std::string _entryTime{};
     std::string _exitTime{};
-    std::string _lastUpdated{};
 
     bool updateRealisedPnL(Trade& trade);
 };

@@ -19,10 +19,10 @@ private:
     static constexpr double _SLIPPAGE = 0.001;
     
     Portfolio& _portfolio;
-    double _tradeCommission;
-    double _allocationPerc;
+    double _tradeCommission{};
+    double _allocationPerc{};
 
-    double calculateTradeQuantity(double price, double volume);
+    double calculateQuantity(double price, double volume, StrategySignal::Type type);
     constexpr double calculateSlippage(double price, StrategySignal::Type type);
 };
 

@@ -12,7 +12,7 @@ void Broker::processSignal(const StrategySignal& signal) {
     // The updated trade price after applying slippage
     double slippagePrice = calculateSlippage(signal.price, signal.type);
     // Number of shares to buy/sell in this trade
-    double quantity = signal.closeAll ? std::abs(_portfolio.getPositionSize()) : calculateTradeQuantity(slippagePrice, signal.volume);
+    double quantity = signal.closeAll ? std::abs(_portfolio.getPositionSize()) : calculateQuantity(slippagePrice, signal.volume, signal.type);
 
     if (Math::isNearZero(quantity)) {
         return;
@@ -21,7 +21,8 @@ void Broker::processSignal(const StrategySignal& signal) {
     Trade newTrade = Trade{ 
         .type = signal.type, 
         .quantity = quantity, 
-        .price = slippagePrice
+        .price = slippagePrice,
+        .timestamp = signal.timestamp
     };
 
     _portfolio.decreaseBalance(_tradeCommission);
@@ -52,21 +53,37 @@ const Stats& Broker::getPortfolioStats() {
     return _portfolio.getStats();
 }
 
-double Broker::calculateTradeQuantity(double price, double marketVolume) {
+double Broker::calculateQuantity(double price, double marketVolume, StrategySignal::Type type) {
     assert(!Math::isNearZero(price));
 
-    // Capital constraint: <_allocationPerc>% of portfolio capital, minus commission
-    double maxCapital = _allocationPerc * _portfolio.getCurrentBalance();
-    double capitalAfterCommission = std::max(0.0, maxCapital - _tradeCommission);
+    double maxNotionalByCapital = _allocationPerc * _portfolio.getCurrentBalance();
+    double capitalAfterCommission = std::max(0.0, maxNotionalByCapital - _tradeCommission);
     double maxQtyByCapital = capitalAfterCommission / price;
 
-    // Liquidity constraint: <_allocationPerc>% of market volume * price, minus commission
     double maxNotionalByLiquidity = _allocationPerc * marketVolume * price;
     double liquidityAfterCommission = std::max(0.0, maxNotionalByLiquidity - _tradeCommission);
     double maxQtyByLiquidity = liquidityAfterCommission / price;
 
-    // Final quantity is minimum of both constraints
-    return std::max(0.0, std::min(maxQtyByCapital, maxQtyByLiquidity));
+    double positionSize = _portfolio.getPositionSize();
+
+    if (type == StrategySignal::Type::SELL) {
+        // If long, close long. If short, increase short
+        if (positionSize > 0) {
+            // Sell up to position size to close long
+            return std::max(0.0, std::min(positionSize, maxQtyByLiquidity));
+        } else {
+            // Add to short
+            return std::max(0.0, std::min(maxQtyByCapital, maxQtyByLiquidity));
+        }
+    } else {
+        if (positionSize < 0) {
+            // Buy to close short
+            return std::max(0.0, std::min(std::abs(positionSize), maxQtyByLiquidity));
+        } else {
+            // Add to long
+            return std::max(0.0, std::min(maxQtyByCapital, maxQtyByLiquidity));
+        }
+    }
 }
 
 constexpr double Broker::calculateSlippage(double price, StrategySignal::Type type) {

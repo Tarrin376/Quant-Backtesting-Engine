@@ -1,6 +1,8 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
+#include <string>
+
 #include "strategies/BaseStrategy.h"
 #include "CSVReader.h"
 #include "Portfolio.h"

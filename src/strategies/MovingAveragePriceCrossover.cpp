@@ -2,7 +2,7 @@
 #include "core/Indicators.h"
 
 MovingAveragePriceCrossover::MovingAveragePriceCrossover(std::size_t period) 
-    : BaseStrategy{ period } {}
+    : BaseStrategy{ period, "Moving Average Price Crossover" } {}
 
 StrategySignal::Type MovingAveragePriceCrossover::progress(const OpenHighLowCloseVolume& bar) {
     _history.push_back(bar);

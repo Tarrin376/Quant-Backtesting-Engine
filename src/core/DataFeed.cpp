@@ -1,6 +1,5 @@
 #include <sstream>
 #include <string>
-#include <iostream>
 
 #include "core/DataFeed.h"
 

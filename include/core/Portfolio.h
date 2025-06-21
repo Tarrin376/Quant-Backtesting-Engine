@@ -29,7 +29,7 @@ private:
 
     int getNumWinningPositions() const;
     int getNumLosingPositions() const;
-    void closePosition(Trade& trade);
+    void closePosition();
 };
 
 #endif

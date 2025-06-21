@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
             config.tradeCommission = std::stod(argv[++i]);
         } else if (arg == "--balance" || arg == "-b") {
             config.initialBalance = std::stod(argv[++i]);
-        } else if (arg == "--period" || arg == "-h") {
+        } else if (arg == "--period" || arg == "-p") {
             config.period = static_cast<std::size_t>(std::stoi(argv[++i]));
         } else if (arg == "--allocation" || arg == "-a") {
             config.allocationPerc = std::stod(argv[++i]);

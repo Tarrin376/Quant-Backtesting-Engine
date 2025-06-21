@@ -1,5 +1,4 @@
 #include <cassert>
-#include <iostream>
 
 #include "core/Portfolio.h"
 
@@ -13,7 +12,7 @@ void Portfolio::recordTrade(Trade& trade) {
     
     // If the position is ready to close, close it
     if (close) {
-        closePosition(trade);
+        closePosition();
     }
 }
 
@@ -75,14 +74,11 @@ int Portfolio::getNumLosingPositions() const {
     return losingPositions;
 }
 
-void Portfolio::closePosition(Trade& trade) {
+void Portfolio::closePosition() {
     // Close position and log it in the history of closed positions
     _position.close();
     _closedPositions.push_back(_position);
 
-    // Create a new position with the trade that contains the remaining quantity that wasn't matched
+    // Create a new position
     _position = Position{};
-    if (trade.quantity > 0) {
-        _position.update(trade);
-    }
 }

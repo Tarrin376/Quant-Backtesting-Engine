@@ -2,7 +2,7 @@
 #include "core/Indicators.h"
 
 BollingerBandMeanReversion::BollingerBandMeanReversion(std::size_t period) 
-    : BaseStrategy{ period } {}
+    : BaseStrategy{ period, "Bollinger Band Mean Reversion" } {}
 
 StrategySignal::Type BollingerBandMeanReversion::progress(const OpenHighLowCloseVolume& bar) {
     _history.push_back(bar);

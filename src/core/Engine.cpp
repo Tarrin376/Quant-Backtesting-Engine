@@ -28,7 +28,7 @@ void Engine::run() {
         datasetSize++;
 
         if (signalType != StrategySignal::Type::HOLD && timeoutPeriod == 0) {
-            const StrategySignal newSignal{ .type = signalType, .price = bar.open, .volume = bar.volume };
+            const StrategySignal newSignal{ .type = signalType, .price = bar.open, .volume = bar.volume, .timestamp = bar.timestamp };
             _broker.processSignal(newSignal);
         }
 
@@ -44,4 +44,5 @@ void Engine::run() {
 
     std::cout << '\n' << _broker.getPortfolioStats() << '\n'; 
     std::cout << "Dataset size: " << datasetSize << '\n';
+    std::cout << "Strategy used: " << _strategy.getName() << '\n';
 }

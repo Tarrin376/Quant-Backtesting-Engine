@@ -1,12 +1,9 @@
-#include <iostream>
-
 #include "core/Position.h"
-#include "utils/Time.h"
 #include "utils/Math.h"
 
 bool Position::update(Trade& trade) {
     if (_entryTime.empty()) {
-        _entryTime = Time::now();
+        _entryTime = trade.timestamp;
     }
 
     if (trade.type == StrategySignal::Type::BUY) {
@@ -39,7 +36,7 @@ double Position::getRealisedPnL() const {
 }
 
 void Position::close() {
-    _exitTime = Time::now();
+    _exitTime = _lots.back().timestamp;
     _closed = true;
 }
 

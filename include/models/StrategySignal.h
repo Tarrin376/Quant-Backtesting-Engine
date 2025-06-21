@@ -2,6 +2,7 @@
 #define STRATEGY_SIGNAL_H
 
 #include <cstdint>
+#include <string>
 
 struct StrategySignal {
     enum class Type {
@@ -14,6 +15,7 @@ struct StrategySignal {
     double price{};
     double volume{};
     bool closeAll{ false };
+    std::string timestamp{};
 };
 
 #endif

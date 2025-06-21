@@ -2,7 +2,7 @@
 #include "core/Indicators.h"
 
 StochasticOscillatorCrossover::StochasticOscillatorCrossover(std::size_t period) 
-    : BaseStrategy{ period } {}
+    : BaseStrategy{ period, "Stochastic Oscillator Crossover" } {}
 
 StrategySignal::Type StochasticOscillatorCrossover::progress(const OpenHighLowCloseVolume& bar) {
     _history.push_back(bar);
