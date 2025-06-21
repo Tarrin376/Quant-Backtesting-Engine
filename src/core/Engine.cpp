@@ -1,9 +1,11 @@
 #include <iostream>
+#include <format>
 
 #include "models/OpenHighLowCloseVolume.h"
 #include "models/StrategySignal.h"
 #include "models/Trade.h"
 #include "core/Engine.h"
+#include "utils/CSVWriter.h"
 
 Engine::Engine(DataFeed& dataFeed, BaseStrategy& strategy, Broker& broker, int executionDelay) : 
     _dataFeed{ dataFeed },
@@ -45,8 +47,18 @@ void Engine::run() {
     std::cout << '\n' << _broker.getPortfolioStats() << '\n'; 
     std::cout << "Dataset size: " << datasetSize << '\n';
     std::cout << "Strategy used: " << _strategy.getName() << '\n';
+}
+
+void Engine::logResults() {
+    CSVWriter<Position, Position::headers.size()> closedPositionsWriter(
+        "closed_positions.csv", 
+        Position::headers, 
+        [](const Position& p) -> const CSVWriter<Position, Position::headers.size()>::Row {
+            return { p.getEntryTime(), p.getExitTime(), std::format("{:.2f}", p.getRealisedPnL()) };
+        }
+    );
 
     for (const Position& position : _broker.getPortfolioClosedPositions()) {
-        std::cout << position << '\n';
+        closedPositionsWriter.write(position);
     }
 }

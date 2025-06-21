@@ -14,8 +14,8 @@ struct StrategySignal {
     Type type{ Type::HOLD };
     double price{};
     double volume{};
-    bool closeAll{ false };
     std::string timestamp{};
+    bool closeAll{ false };
 };
 
 #endif

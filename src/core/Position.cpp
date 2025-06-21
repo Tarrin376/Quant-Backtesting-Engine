@@ -1,6 +1,8 @@
 #include "core/Position.h"
 #include "utils/Math.h"
 
+const std::array<std::string, 3> Position::headers{ "Entry", "Exit", "PnL" };
+
 bool Position::update(Trade& trade) {
     if (_entryTime.empty()) {
         _entryTime = trade.timestamp;
@@ -25,14 +27,6 @@ bool Position::update(Trade& trade) {
     }
 
     return false;
-}
-
-double Position::getSize() const {
-    return _size;
-}
-
-double Position::getRealisedPnL() const {
-    return _realisedPnL;
 }
 
 void Position::close(const Trade& closingTrade) {
@@ -61,4 +55,20 @@ bool Position::updateRealisedPnL(Trade& trade) {
     }
 
     return Math::isNearZero(_size);
+}
+
+double Position::getSize() const {
+    return _size;
+}
+
+double Position::getRealisedPnL() const {
+    return _realisedPnL;
+}
+
+const std::string& Position::getEntryTime() const {
+    return _entryTime;
+}
+
+const std::string& Position::getExitTime() const {
+    return _exitTime;
 }

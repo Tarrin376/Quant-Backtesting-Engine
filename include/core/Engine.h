@@ -4,7 +4,6 @@
 #include <string>
 
 #include "strategies/BaseStrategy.h"
-#include "CSVReader.h"
 #include "Portfolio.h"
 #include "Broker.h"
 #include "DataFeed.h"
@@ -14,6 +13,7 @@ public:
     Engine(DataFeed& dataFeed, BaseStrategy& strategy, Broker& broker, int executionDelay);
 
     void run();
+    void logResults();
     
 private:
     DataFeed& _dataFeed;

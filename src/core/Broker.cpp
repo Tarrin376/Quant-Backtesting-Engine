@@ -43,6 +43,7 @@ void Broker::finalise(const OpenHighLowCloseVolume& lastBar) {
     StrategySignal exitSignal = {
         .type = _portfolio.getPositionSize() > 0 ? StrategySignal::Type::SELL : StrategySignal::Type::BUY,
         .price = lastBar.close,
+        .timestamp = lastBar.timestamp,
         .closeAll = true
     };
 

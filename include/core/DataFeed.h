@@ -1,7 +1,7 @@
 #ifndef DATAFEED_H
 #define DATAFEED_H
 
-#include "CSVReader.h"
+#include "utils/CSVReader.h"
 #include "models/OpenHighLowCloseVolume.h"
 
 class DataFeed {

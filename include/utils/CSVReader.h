@@ -9,17 +9,17 @@
 
 class CSVReader {
 public:
-    explicit CSVReader(std::string &fileName);
+    explicit CSVReader(const std::string& fileName);
     
     bool next();
     bool isFirstLine();
     std::string_view getLine();
 
 private:
-    std::ifstream _file{};
+    const std::string _prefix{ "../data/" };
+    std::ifstream _file;
     std::string _line{};
     bool _firstLine{ true };
-    static const std::string _prefix;
 };
 
 #endif

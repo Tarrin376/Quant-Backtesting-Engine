@@ -57,5 +57,6 @@ int main(int argc, char* argv[]) {
 
     Engine engine{ dataFeed, *strategy, broker, config.executionDelay };
     engine.run();
+    engine.logResults();
     return 1;
 }
