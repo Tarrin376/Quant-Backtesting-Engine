@@ -1,5 +1,6 @@
-data/*
 build
 bin
 venv
 .vscode
+results
+data
