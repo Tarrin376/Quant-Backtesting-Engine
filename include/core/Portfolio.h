@@ -14,8 +14,11 @@ public:
     void recordTrade(Trade& trade);
     void decreaseBalance(double amount);
     void increaseBalance(double amount);
+
     double getCurrentBalance() const;
     double getPositionSize() const;
+    const std::vector<Trade>& getTradeHistory() const;
+    const std::vector<Position>& getClosedPositions() const;
     const Stats& getStats();
 
 private:
@@ -29,7 +32,7 @@ private:
 
     int getNumWinningPositions() const;
     int getNumLosingPositions() const;
-    void closePosition();
+    void closePosition(const Trade& closingTrade);
 };
 
 #endif

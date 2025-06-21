@@ -53,6 +53,14 @@ const Stats& Broker::getPortfolioStats() {
     return _portfolio.getStats();
 }
 
+const std::vector<Trade>& Broker::getPortfolioTradeHistory() const {
+    return _portfolio.getTradeHistory();
+}
+
+const std::vector<Position>& Broker::getPortfolioClosedPositions() const {
+    return _portfolio.getClosedPositions();
+}
+
 double Broker::calculateQuantity(double price, double marketVolume, StrategySignal::Type type) {
     assert(!Math::isNearZero(price));
 

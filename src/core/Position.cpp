@@ -35,8 +35,8 @@ double Position::getRealisedPnL() const {
     return _realisedPnL;
 }
 
-void Position::close() {
-    _exitTime = _lots.back().timestamp;
+void Position::close(const Trade& closingTrade) {
+    _exitTime = closingTrade.timestamp;
     _closed = true;
 }
 

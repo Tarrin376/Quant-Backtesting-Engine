@@ -3,6 +3,7 @@
 
 #include <deque>
 #include <string>
+#include <ostream>
 
 #include "models/Trade.h"
 
@@ -13,7 +14,13 @@ public:
     bool update(Trade& trade);
     double getSize() const;
     double getRealisedPnL() const;
-    void close();
+    void close(const Trade& closingTrade);
+
+    friend std::ostream& operator<<(std::ostream& out, const Position& position) {
+        out << " Entry timestamp: " << position._entryTime << " Exit timestamp: " << position._exitTime 
+        << " Realised PnL: " << position._realisedPnL << '\n';
+        return out;
+    }
 
 private:
     double _size{};

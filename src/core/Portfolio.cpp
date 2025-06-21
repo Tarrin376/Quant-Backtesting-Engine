@@ -12,7 +12,7 @@ void Portfolio::recordTrade(Trade& trade) {
     
     // If the position is ready to close, close it
     if (close) {
-        closePosition();
+        closePosition(trade);
     }
 }
 
@@ -32,6 +32,14 @@ double Portfolio::getCurrentBalance() const {
 
 double Portfolio::getPositionSize() const {
     return _position.getSize();
+}
+
+const std::vector<Trade>& Portfolio::getTradeHistory() const {
+    return _tradeHistory;
+}
+
+const std::vector<Position>& Portfolio::getClosedPositions() const {
+    return _closedPositions;
 }
 
 const Stats& Portfolio::getStats() {
@@ -74,9 +82,9 @@ int Portfolio::getNumLosingPositions() const {
     return losingPositions;
 }
 
-void Portfolio::closePosition() {
+void Portfolio::closePosition(const Trade& closingTrade) {
     // Close position and log it in the history of closed positions
-    _position.close();
+    _position.close(closingTrade);
     _closedPositions.push_back(_position);
 
     // Create a new position

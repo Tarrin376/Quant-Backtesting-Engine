@@ -45,4 +45,8 @@ void Engine::run() {
     std::cout << '\n' << _broker.getPortfolioStats() << '\n'; 
     std::cout << "Dataset size: " << datasetSize << '\n';
     std::cout << "Strategy used: " << _strategy.getName() << '\n';
+
+    for (const Position& position : _broker.getPortfolioClosedPositions()) {
+        std::cout << position << '\n';
+    }
 }

@@ -13,7 +13,10 @@ public:
 
     void processSignal(const StrategySignal& signal);
     void finalise(const OpenHighLowCloseVolume& lastBar);
+
     const Stats& getPortfolioStats();
+    const std::vector<Trade>& getPortfolioTradeHistory() const;
+    const std::vector<Position>& getPortfolioClosedPositions() const;
 
 private:
     static constexpr double _SLIPPAGE = 0.001;
