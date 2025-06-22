@@ -3,11 +3,14 @@
 
 #include <string>
 #include <ostream>
+#include <array>
 
 #include "StrategySignal.h"
 
 struct Trade {
     StrategySignal::Type type{ StrategySignal::Type::HOLD };
+    static inline const std::array<std::string, 4> headers{ "Side", "Price", "Quantity", "Timestamp" };
+
     double quantity{};
     double price{};
     std::string timestamp{};
