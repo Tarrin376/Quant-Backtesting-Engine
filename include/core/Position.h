@@ -10,6 +10,11 @@
 
 class Position {
 public:
+    enum class Type {
+        LONG,
+        SHORT
+    };
+
     Position& operator=(const Position&) = default;
 
     bool update(Trade& trade);
@@ -17,10 +22,12 @@ public:
 
     double getSize() const;
     double getRealisedPnL() const;
+    Type getType() const;
+
     const std::string& getEntryTime() const;
     const std::string& getExitTime() const;
 
-    static const std::array<std::string, 3> headers;
+    static const std::array<std::string, 4> headers;
 
 private:
     double _size{};
@@ -31,6 +38,7 @@ private:
 
     std::string _entryTime{};
     std::string _exitTime{};
+    Type _type{};
 
     bool updateRealisedPnL(Trade& trade);
 };

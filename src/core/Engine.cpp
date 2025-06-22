@@ -52,9 +52,14 @@ void Engine::run() {
 void Engine::logResults() {
     CSVWriter<Position, Position::headers.size()> closedPositionsWriter(
         "closed_positions.csv", 
-        Position::headers, 
+        Position::headers,
         [](const Position& p) -> const CSVWriter<Position, Position::headers.size()>::Row {
-            return { p.getEntryTime(), p.getExitTime(), std::format("{:.2f}", p.getRealisedPnL()) };
+            return { 
+                p.getEntryTime(), 
+                p.getExitTime(), 
+                std::format("{:.2f}", p.getRealisedPnL()), 
+                p.getType() == Position::Type::LONG ? "Long" : "Short" 
+            };
         }
     );
 

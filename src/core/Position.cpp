@@ -1,7 +1,7 @@
 #include "core/Position.h"
 #include "utils/Math.h"
 
-const std::array<std::string, 3> Position::headers{ "Entry", "Exit", "PnL" };
+const std::array<std::string, 4> Position::headers{ "Entry", "Exit", "PnL", "Type" };
 
 bool Position::update(Trade& trade) {
     if (_entryTime.empty()) {
@@ -30,6 +30,7 @@ bool Position::update(Trade& trade) {
 }
 
 void Position::close(const Trade& closingTrade) {
+    _type = closingTrade.type == StrategySignal::Type::SELL ? Type::LONG : Type::SHORT;
     _exitTime = closingTrade.timestamp;
     _closed = true;
 }
@@ -63,6 +64,10 @@ double Position::getSize() const {
 
 double Position::getRealisedPnL() const {
     return _realisedPnL;
+}
+
+Position::Type Position::getType() const {
+    return _type;
 }
 
 const std::string& Position::getEntryTime() const {

@@ -33,7 +33,7 @@ public:
         _writer << toCSVString(_formatter(data));
     }
 
-    std::string toCSVString(const Row& values) {
+    const std::string toCSVString(const Row& values) const {
         std::stringstream ss{};
 
         for (std::size_t i = 0; i < N; i++) {
