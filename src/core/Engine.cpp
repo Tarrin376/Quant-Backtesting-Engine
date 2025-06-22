@@ -1,10 +1,9 @@
 #include <iostream>
-#include <format>
 
 #include "models/OpenHighLowCloseVolume.h"
 #include "models/StrategySignal.h"
 #include "core/Engine.h"
-#include "utils/CSVWriter.h"
+#include "utils/Logger.h"
 
 Engine::Engine(DataFeed& dataFeed, BaseStrategy& strategy, Broker& broker, int executionDelay) : 
     _dataFeed{ dataFeed },
@@ -49,37 +48,6 @@ void Engine::run() {
 }
 
 void Engine::logResults() {
-    CSVWriter<Position, Position::headers.size()> closedPositionsWriter(
-        "closed_positions.csv", 
-        Position::headers,
-        [](const Position& position) -> const CSVWriter<Position, Position::headers.size()>::Row {
-            return { 
-                position.getEntryTime(), 
-                position.getExitTime(), 
-                std::format("{:.2f}", position.getRealisedPnL()), 
-                position.getType() == Position::Type::LONG ? "Long" : "Short" 
-            };
-        }
-    );
-
-    for (const Position& position : _broker.getPortfolioClosedPositions()) {
-        closedPositionsWriter.write(position);
-    }
-
-    CSVWriter<Trade, Trade::headers.size()> tradesWriter(
-        "trades.csv",
-        Trade::headers,
-        [](const Trade& trade) -> const CSVWriter<Trade, Trade::headers.size()>::Row {
-            return {
-                trade.type == StrategySignal::Type::BUY ? "Buy" : "Sell",
-                std::format("{:.2f}", trade.price),
-                std::to_string(trade.quantity),
-                trade.timestamp
-            };
-        }
-    );
-
-    for (const Trade& trade : _broker.getPortfolioTradeHistory()) {
-        tradesWriter.write(trade);
-    }
+    Logger::logPositions(_broker.getPortfolioClosedPositions());
+    Logger::logTrades(_broker.getPortfolioTradeHistory());
 }

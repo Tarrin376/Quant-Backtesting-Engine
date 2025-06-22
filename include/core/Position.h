@@ -5,6 +5,7 @@
 #include <string>
 #include <array>
 #include <fstream>
+#include <cstdint>
 
 #include "models/Trade.h"
 
@@ -27,7 +28,8 @@ public:
     const std::string& getEntryTime() const;
     const std::string& getExitTime() const;
 
-    static const std::array<std::string, 4> headers;
+    static constexpr std::size_t COLUMN_COUNT{ 4 };
+    static const std::array<std::string, COLUMN_COUNT> headers;
 
 private:
     double _size{};
