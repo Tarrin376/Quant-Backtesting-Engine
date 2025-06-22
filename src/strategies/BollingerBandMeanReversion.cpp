@@ -6,21 +6,28 @@ BollingerBandMeanReversion::BollingerBandMeanReversion(std::size_t period)
 
 StrategySignal::Type BollingerBandMeanReversion::progress(const OpenHighLowCloseVolume& bar) {
     _history.push_back(bar);
-    if (_history.size() < _period) {
+    if (_history.size() < _period + 1) {
         return StrategySignal::Type::HOLD;
     }
 
     std::optional<BollingerBands> optBands = Indicators::bollingerBands(_history, _period);
+    const OpenHighLowCloseVolume& prevBar = _history[_history.size() - 2];
+
     if (!optBands) {
         return StrategySignal::Type::HOLD;
     }
 
     const BollingerBands& bands = *optBands;
-    if (bar.open > bands.lower && bar.close < bands.lower) {
+
+    // Long reversion: crossed back above lower band
+    if (prevBar.close < bands.lower && bar.close >= bands.lower) {
         return StrategySignal::Type::BUY;
-    } else if (bar.open < bands.upper && bar.close > bands.upper) {
-        return StrategySignal::Type::SELL;
-    } else {
-        return StrategySignal::Type::HOLD;
     }
+
+    // Short reversion: crossed back below upper band
+    if (prevBar.close > bands.upper && bar.close <= bands.upper) {
+        return StrategySignal::Type::SELL;
+    }
+
+    return StrategySignal::Type::HOLD;
 }

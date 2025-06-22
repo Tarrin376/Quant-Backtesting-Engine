@@ -2,9 +2,11 @@
 #define LOGGER_H
 
 #include <cstdint>
+#include <vector>
 
 #include "CSVWriter.h"
 #include "models/Trade.h"
+#include "models/OpenHighLowCloseVolume.h"
 #include "core/Position.h"
 
 namespace Logger {
@@ -21,6 +23,7 @@ namespace Logger {
 
     void logPositions(const std::vector<Position>& positions);
     void logTrades(const std::vector<Trade>& trades);
+    void logBollingerBands(const std::vector<OpenHighLowCloseVolume>& history, const std::size_t period);
 }
 
 #endif

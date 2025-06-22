@@ -5,18 +5,16 @@
 #include "core/Engine.h"
 #include "utils/Logger.h"
 
-Engine::Engine(DataFeed& dataFeed, BaseStrategy& strategy, Broker& broker, int executionDelay) : 
+Engine::Engine(DataFeed& dataFeed, BaseStrategy& strategy, Broker& broker) : 
     _dataFeed{ dataFeed },
     _strategy{ strategy },
-    _broker{ broker },
-    _executionDelay{ executionDelay } {}
+    _broker{ broker } {}
 
 void Engine::run() {
     OpenHighLowCloseVolume prevBar{};
     OpenHighLowCloseVolume bar{};
 
     StrategySignal::Type signalType{ StrategySignal::Type::HOLD };
-    int timeoutPeriod{ 0 };
     int datasetSize{ 0 };
 
     while ((bar = _dataFeed.next()).timestamp != "") {
@@ -24,20 +22,15 @@ void Engine::run() {
             continue;
         }
         
-        timeoutPeriod = std::max(0, timeoutPeriod - 1);
         datasetSize++;
-
-        if (signalType != StrategySignal::Type::HOLD && timeoutPeriod == 0) {
+        if (signalType != StrategySignal::Type::HOLD) {
             const StrategySignal newSignal{ .type = signalType, .price = bar.open, .volume = bar.volume, .timestamp = bar.timestamp };
             _broker.processSignal(newSignal);
         }
 
-        if (timeoutPeriod == 0) {
-            StrategySignal::Type nextSignalType{ _strategy.progress(bar) };
-            timeoutPeriod = _executionDelay + 1;
-            signalType = nextSignalType;
-            prevBar = bar;
-        }
+        StrategySignal::Type nextSignalType{ _strategy.progress(bar) };
+        signalType = nextSignalType;
+        prevBar = bar;
     }
 
     _broker.finalise(prevBar);
@@ -50,4 +43,5 @@ void Engine::run() {
 void Engine::logResults() {
     Logger::logPositions(_broker.getPortfolioClosedPositions());
     Logger::logTrades(_broker.getPortfolioTradeHistory());
+    Logger::logBollingerBands(_strategy.getHistory(), _strategy.getPeriod());
 }

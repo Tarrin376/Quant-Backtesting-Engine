@@ -36,8 +36,6 @@ int main(int argc, char* argv[]) {
             config.period = static_cast<std::size_t>(std::stoi(argv[++i]));
         } else if (arg == "--allocation" || arg == "-a") {
             config.allocationPerc = std::stod(argv[++i]);
-        } else if (arg == "--delay" || arg == "-d") {
-            config.executionDelay = std::stoi(argv[++i]);
         } else if (arg == "--strategy" || arg == "-s") {
             config.strategyName = argv[++i];
         }
@@ -55,7 +53,7 @@ int main(int argc, char* argv[]) {
     Portfolio portfolio{ config.initialBalance };
     Broker broker{ config.tradeCommission, config.allocationPerc, portfolio };
 
-    Engine engine{ dataFeed, *strategy, broker, config.executionDelay };
+    Engine engine{ dataFeed, *strategy, broker };
     engine.run();
     engine.logResults();
     return 1;

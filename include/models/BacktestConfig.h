@@ -11,8 +11,6 @@ struct BacktestConfig {
     double tradeCommission{ 0.0 };
     double initialBalance{ 10000 };
     double allocationPerc{ 0.1 };
-
-    int executionDelay{ 0 };
     std::size_t period{ 14 };
 };
 

@@ -3,18 +3,18 @@
 
 #include <vector>
 #include <cstdint>
+#include <string>
 
 #include "models/OpenHighLowCloseVolume.h"
 #include "models/StrategySignal.h"
 
 class BaseStrategy {
 public:
-    explicit BaseStrategy(std::size_t period, const char* name)
-        : _period{ period }, _name{ name } {}
+    BaseStrategy(const std::size_t period, const std::string name);
 
-    const char* getName() {
-        return _name;
-    }
+    const std::string getName() const;
+    const std::vector<OpenHighLowCloseVolume>& getHistory() const;
+    const std::size_t getPeriod() const;
 
     virtual ~BaseStrategy() = default;
     
@@ -23,7 +23,7 @@ public:
     }
 
 protected:
-    const char* _name{ "Base Strategy" };
+    const std::string _name{ "Base Strategy" };
     const std::size_t _period{};
     std::vector<OpenHighLowCloseVolume> _history{};
 };
