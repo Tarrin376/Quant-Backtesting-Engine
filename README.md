@@ -2,6 +2,8 @@
 
 This project is a high-fidelity C++ backtesting engine for simulating algorithmic trading strategies on 1-minute OHLCV market data.
 
+![image](https://github.com/user-attachments/assets/85334990-4167-45d4-be88-368a1828151e)
+
 ## 🛠 Tech Stack
 
 - **Languages:** C++, Python
