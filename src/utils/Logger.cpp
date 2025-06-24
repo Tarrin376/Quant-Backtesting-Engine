@@ -33,7 +33,7 @@ void Logger::logBollingerBands(const std::vector<OpenHighLowCloseVolume>& histor
 
     for (const OpenHighLowCloseVolume& ohlc : history) {
         accHistory.emplace_back(ohlc);
-        std::optional<BollingerBands> bollingerBands = Indicators::bollingerBands(accHistory);
+        std::optional<BollingerBands> bollingerBands = Indicators::bollingerBands(accHistory, period);
         if (bollingerBands) {
             bollingerBands->timestamp = ohlc.timestamp;
             bollingerBandsHistory.push_back(*bollingerBands);

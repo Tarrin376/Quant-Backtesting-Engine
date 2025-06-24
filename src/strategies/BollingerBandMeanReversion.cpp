@@ -1,5 +1,6 @@
 #include "strategies/BollingerBandMeanReversion.h"
 #include "core/Indicators.h"
+#include <iostream>
 
 BollingerBandMeanReversion::BollingerBandMeanReversion(std::size_t period) 
     : BaseStrategy{ period, "Bollinger Band Mean Reversion" } {}
