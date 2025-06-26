@@ -18,10 +18,13 @@ StrategySignal::Type StochasticOscillatorCrossover::progress(const OpenHighLowCl
     const Stochastic& stochastic = *stochasticOpt;
     StrategySignal::Type signal{ StrategySignal::Type::HOLD };
 
-    if (prevPercK != -1 && prevPercK < prevPercD && stochastic.percK > stochastic.percD) {
-        signal = StrategySignal::Type::BUY;
-    } else if (prevPercK != -1 && prevPercK > prevPercD && stochastic.percK < stochastic.percD) {
-        signal = StrategySignal::Type::SELL;
+    // If a prev %K exists for checking crossover and %K is either overbought or oversold, check BUY/SELL signals
+    if (prevPercK != -1 && (stochastic.percK <= 20 || stochastic.percK >= 80)) {
+        if (prevPercK < prevPercD && stochastic.percK >= stochastic.percD) {
+            signal = StrategySignal::Type::BUY;
+        } else if (prevPercK > prevPercD && stochastic.percK <= stochastic.percD) {
+            signal = StrategySignal::Type::SELL;
+        }
     }
 
     prevPercK = stochastic.percK;

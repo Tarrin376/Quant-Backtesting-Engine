@@ -34,6 +34,7 @@ void Logger::logBollingerBands(const std::vector<OpenHighLowCloseVolume>& histor
     for (const OpenHighLowCloseVolume& ohlc : history) {
         accHistory.emplace_back(ohlc);
         std::optional<BollingerBands> bollingerBands = Indicators::bollingerBands(accHistory, period);
+
         if (bollingerBands) {
             bollingerBands->timestamp = ohlc.timestamp;
             bollingerBandsHistory.push_back(*bollingerBands);
@@ -50,6 +51,33 @@ void Logger::logBollingerBands(const std::vector<OpenHighLowCloseVolume>& histor
                 std::to_string(b.middle),
                 std::to_string(b.upper),
                 b.timestamp
+            };
+        });
+}
+
+void Logger::logStochastic(const std::vector<OpenHighLowCloseVolume>& history, const std::size_t period) {
+    std::vector<OpenHighLowCloseVolume> accHistory{};
+    std::vector<Stochastic> stochasticHistory{};
+
+    for (const OpenHighLowCloseVolume& ohlc : history) {
+        accHistory.emplace_back(ohlc);
+        std::optional<Stochastic> stochastic = Indicators::stochasticOscillator(accHistory, period);
+        
+        if (stochastic) {
+            stochastic->timestamp = ohlc.timestamp;
+            stochasticHistory.push_back(*stochastic);
+        }
+    }
+
+    Logger::writeCSV<Stochastic, Stochastic::COLUMN_COUNT>(
+        "stochastic.csv", 
+        Stochastic::headers, 
+        stochasticHistory,
+        [](const Stochastic& s) -> const std::array<std::string, Stochastic::COLUMN_COUNT> {
+            return {
+                std::to_string(s.percK),
+                std::to_string(s.percD),
+                s.timestamp
             };
         });
 }

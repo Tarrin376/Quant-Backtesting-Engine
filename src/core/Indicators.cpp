@@ -1,5 +1,6 @@
 #include <cmath>
 #include <limits>
+#include <iostream>
 
 #include "core/Indicators.h"
 
@@ -45,24 +46,22 @@ namespace Indicators {
 
     std::optional<Stochastic> stochasticOscillator(const std::vector<OpenHighLowCloseVolume>& history, std::size_t period, std::size_t d) {
         std::size_t historySize{ history.size() };
-        std::size_t effectivePeriod = std::min(period, historySize);
-
-        if (historySize == 0 || effectivePeriod < d) {
+        if (historySize < period + d - 1) {
             return {};
         }
 
         double percK{};
         double percD{};
+        
+        for (std::size_t i = historySize - d; i < historySize; ++i) {
+            double high{ std::numeric_limits<double>::lowest() };
+            double low{ std::numeric_limits<double>::max() };
 
-        double high{ std::numeric_limits<double>::lowest() };
-        double low{ std::numeric_limits<double>::max() };
+            for (std::size_t j = i - period + 1; j <= i; ++j) {
+                high = std::max(high, history[j].high);
+                low = std::min(low, history[j].low);
+            }
 
-        for (std::size_t i = historySize - effectivePeriod; i < historySize; i++) {
-            high = std::max(high, history[i].high);
-            low = std::min(low, history[i].low);
-        }
-
-        for (std::size_t i = historySize - d; i < historySize; i++) {
             double curPercK = high == low ? 50.0 : (history[i].close - low) / (high - low) * 100;
             percD += curPercK;
 

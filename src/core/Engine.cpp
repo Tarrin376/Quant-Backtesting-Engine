@@ -44,4 +44,5 @@ void Engine::logResults() {
     Logger::logPositions(_broker.getPortfolioClosedPositions());
     Logger::logTrades(_broker.getPortfolioTradeHistory());
     Logger::logBollingerBands(_strategy.getHistory(), _strategy.getPeriod());
+    Logger::logStochastic(_strategy.getHistory(), _strategy.getPeriod());
 }

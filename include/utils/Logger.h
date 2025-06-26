@@ -24,6 +24,7 @@ namespace Logger {
     void logPositions(const std::vector<Position>& positions);
     void logTrades(const std::vector<Trade>& trades);
     void logBollingerBands(const std::vector<OpenHighLowCloseVolume>& history, const std::size_t period);
+    void logStochastic(const std::vector<OpenHighLowCloseVolume>& history, const std::size_t period);
 }
 
 #endif
