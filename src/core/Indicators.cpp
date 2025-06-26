@@ -54,8 +54,8 @@ namespace Indicators {
         double percD{};
         
         for (std::size_t i = historySize - d; i < historySize; ++i) {
-            double high{ std::numeric_limits<double>::lowest() };
-            double low{ std::numeric_limits<double>::max() };
+            double high = std::numeric_limits<double>::lowest();
+            double low = std::numeric_limits<double>::max();
 
             for (std::size_t j = i - period + 1; j <= i; ++j) {
                 high = std::max(high, history[j].high);
