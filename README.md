@@ -43,24 +43,26 @@ Quant-Backtesting-Engine/
 
 ## 🛠️ Getting Started
 
-### 1. Clone the Repository
+### Backtesting Engine setup
+
+#### 1. Clone the Repository
 ```bash
 > git clone https://github.com/Tarrin376/Quant-Backtesting-Engine.git && cd Quant-Backtesting-Engine
 ```
 
-### 2. Create a build directory and move to it
+#### 2. Create a build directory and move to it
 ```bash
 > mkdir build
 > cd build
 ```
 
-### 3. Build executable with CMake (the executable will be generated in the /bin directory)
+#### 3. Build executable with CMake (the executable will be generated in the /bin directory)
 ```bash
 > cmake ..
 > cmake --build .
 ```
 
-### 4. Run the backtesting-engine executable
+#### 4. Run the backtesting-engine executable
 ```bash
 > cd ../bin
 > ./backtesting-engine.exe
@@ -82,5 +84,7 @@ Losing Positions    : 0
 Dataset size: 0
 Strategy used: Bollinger Band Mean Reversion
 ```
+
+
 
 This is expected, as we haven't specified any backtesting data file to use in the /data directory.
