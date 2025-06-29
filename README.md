@@ -148,7 +148,7 @@ This will generate a file containing 1 hour OHLCV data from 2023-01-01 to 2024-0
 #### 1. Check that you have historical data ready to use
 
 If you generated a historical data file using the `market_data_fetcher.py` script, you should see a new file in the /data directory.
-However, if you are planning on using your own historical data, please ensure that it uses the CSV file format and follows the below structure:
+However, if you are planning on using your own historical data, please ensure that it uses the CSV file format, is stored in the /data directory, and follows the below structure:
 ```
 Open,High,Low,Close,Volume,Timestamp
 ```
