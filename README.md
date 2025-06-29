@@ -85,6 +85,60 @@ Dataset size: 0
 Strategy used: Bollinger Band Mean Reversion
 ```
 
-
-
 This is expected, as we haven't specified any backtesting data file to use in the /data directory.
+
+### Python environment setup and running scripts
+
+#### 1. Move to the `python_scripts` directory
+```bash
+> cd ../python_scripts
+```
+
+#### 2. Create virtual environment and activate it (optional)
+```bash
+> virtualenv venv
+> ./venv/Scripts/activate
+```
+
+#### 3. Install all dependencies from `requirements.txt` file
+```bash
+> pip install -r requirements.txt
+```
+
+#### 4. Create a /data directory in the project root directory
+```bash
+> cd ..
+> mkdir data
+```
+
+#### 5a. Generate historical data that will be consumed by the Backtesting Engine
+```bash
+> cd python_scripts
+> python market_data_fetcher.py
+```
+
+#### 5b. Customise the historical data fetched from the Alpaca Markets API
+
+Once you run the `market_data_fetcher.py` script, you will get the following output:
+
+```bash
+usage: market_data_fetcher.py [-h] [-s START] [-e END] [-sym SYMBOL] [-tf TIMEFRAME]
+
+options:
+  -h, --help            show this help message and exit
+  -s START, --start START
+                        start date for historical data in YYYY-MM-DD (default: 2022-01-01)
+  -e END, --end END     end date for historical data in YYYY-MM-DD (default: 2022-01-30)
+  -sym SYMBOL, --symbol SYMBOL
+                        Crypto symbol to fetch historical data for e.g. BTC or ETH (default: BTC)
+  -tf TIMEFRAME, --timeframe TIMEFRAME
+                        The frequency of the OHLC data e.g. [1-59]Min, [1-23]Hour, [number]Day, [number]Week, [1-12]Month (default: 1Min)
+```
+
+These are flags that you can include when running the `market_data_fetcher.py` script to change what historical data is fetched.
+For example:
+```bash
+python market_data_fetcher.py -s 2023-01-01 -e 2024-01-01 -sym ETH -tf 1Hour`
+```
+
+This will generate a file containing 1 hour OHLCV data from 2023-01-01 to 2024-01-01 for Ethereum.
