@@ -165,14 +165,14 @@ Open,High,Low,Close,Volume,Timestamp
 
 Additional flags can be provided to customise your backtest:
 ```
--> [--commission | -c] <ENTER COMMISSION APPLIED TO EACH TRADE>
--> [--balance | -b] <ENTER INITIAL CAPITAL HERE>
--> [--period | -p] <ENTER LOOKBACK PERIOD HERE (used for indicator windows e.g. SMA)
--> [--allocation | -a] <ENTER ALLOCATION PERCENTAGE THAT YOU SHOULD BE ABLE TO TAKE AT MOST FROM THE MARKET AND YOUR PORTFOLIO FOR A SINGLE TRADE>
--> [--strategy | -s] <ENTER THE STRATEGY THAT YOU WANT TO USE>
+-> [--commission | -c] <ENTER COMMISSION APPLIED TO EACH TRADE> (default: 0)
+-> [--balance | -b] <ENTER INITIAL CAPITAL HERE> (default: 10,000)
+-> [--period | -p] <ENTER LOOKBACK PERIOD HERE> (used for indicator windows e.g. SMA) (default: 14)
+-> [--allocation | -a] <ENTER ALLOCATION PERCENTAGE THAT YOU SHOULD BE ABLE TO TAKE AT MOST FROM THE MARKET AND YOUR PORTFOLIO FOR A SINGLE TRADE> (default: 0.1)
+-> [--strategy | -s] <ENTER THE STRATEGY THAT YOU WANT TO USE> (default: `bb-mean-rev`)
       - Strategies available (to be extended):
         - `ma-price-cross`: Moving Average Price Crossover Strategy
-        - `bb-mean-rev`: Bollinger Band Mean Reversion Strategy (default)
+        - `bb-mean-rev`: Bollinger Band Mean Reversion Strategy
         - `stochastic-osc-cross`: Stochastic Oscillator Crossover Strategy
 ```
 
