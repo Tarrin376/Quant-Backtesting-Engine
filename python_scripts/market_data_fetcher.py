@@ -3,10 +3,10 @@ import requests
 import csv
 
 class MarketDataFetcher:
-    def __init__(self, start, end, symbol, timeframe):
+    def __init__(self, start_date, end_date, symbol, timeframe):
         self._columns = {'o': 'Open', 'h': 'High', 'l': 'Low', 'c': 'Close', 'v': 'Volume', 't': 'Timestamp'}
-        self._start = start
-        self._end = end
+        self._start_date = start_date
+        self._end_date = end_date
         self._symbol = symbol
         self._timeframe = timeframe
     
@@ -18,7 +18,7 @@ class MarketDataFetcher:
             page_token = ""
 
             while not reached_end:
-                url = f"https://data.alpaca.markets/v1beta3/crypto/us/bars?symbols={self._symbol}/USD&timeframe={self._timeframe}&start={self._start}T00%3A00%3A00Z&end={self._end}T00%3A00%3A00Z&page_token={page_token}&limit=1000&sort=asc"
+                url = f"https://data.alpaca.markets/v1beta3/crypto/us/bars?symbols={self._symbol}/USD&timeframe={self._timeframe}&start={self._start_date}T00%3A00%3A00Z&end={self._end_date}T00%3A00%3A00Z&page_token={page_token}&limit=1000&sort=asc"
                 response = requests.get(url, headers={"accept": "application/json"}).json()
                 ohlc_data = response['bars'][f'{self._symbol}/USD']
                 next_page_token = response['next_page_token']
@@ -40,10 +40,10 @@ class MarketDataFetcher:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-s', '--start', help='start date for historical data in YYYY-MM-DD', default='2022-01-01')
-    parser.add_argument('-e', '--end', help='end date for historical data in YYYY-MM-DD', default='2022-01-30')
-    parser.add_argument('-sym', '--symbol', help='Crypto symbol to fetch historical data for e.g. BTC or ETH', default='BTC')
-    parser.add_argument('-tf', '--timeframe', help='The frequency of the OHLC data e.g. [1-59]Min, [1-23]Hour, [number]Day, [number]Week, [1-12]Month', default='1Min')
+    parser.add_argument('-s', '--start', help='start date for historical data in YYYY-MM-DD (default: 2022-01-01)', default='2022-01-01')
+    parser.add_argument('-e', '--end', help='end date for historical data in YYYY-MM-DD (default: 2022-01-30)', default='2022-01-30')
+    parser.add_argument('-sym', '--symbol', help='Crypto symbol to fetch historical data for e.g. BTC or ETH (default: BTC)', default='BTC')
+    parser.add_argument('-tf', '--timeframe', help='The frequency of the OHLC data e.g. [1-59]Min, [1-23]Hour, [number]Day, [number]Week, [1-12]Month (default: 1Min)', default='1Min')
     parser.print_help()
 
     args = parser.parse_args()
