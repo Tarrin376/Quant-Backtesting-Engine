@@ -142,3 +142,36 @@ python market_data_fetcher.py -s 2023-01-01 -e 2024-01-01 -sym ETH -tf 1Hour`
 ```
 
 This will generate a file containing 1 hour OHLCV data from 2023-01-01 to 2024-01-01 for Ethereum.
+
+### Using historical data in the Backtesting Engine
+
+#### 1. Check that you have historical data ready to use
+
+If you generated a historical data file using the `market_data_fetcher.py` script, you should see a new file in the /data directory.
+However, if you are planning on using your own historical data, please ensure that it uses the CSV file format and follows the below structure:
+```
+Open,High,Low,Close,Volume,Timestamp
+```
+
+#### 2. Provide the file name as a flag to the backtesting-engine executable
+```bash
+> cd ../bin
+> ./backtesting-engine [-f | --filename] <ENTER FILE NAME HERE>
+```
+
+Additional flags can be provided to customise your backtest:
+```
+-> [--commission | -c] <ENTER COMMISSION APPLIED TO EACH TRADE>
+-> [--balance | -b] <ENTER INITIAL CAPITAL HERE>
+-> [--period | -p] <ENTER LOOKBACK PERIOD HERE (used for indicator windows e.g. SMA)
+-> [--allocation | -a] <ENTER ALLOCATION PERCENTAGE THAT YOU SHOULD BE ABLE TO TAKE AT MOST FROM THE MARKET AND YOUR PORTFOLIO FOR A SINGLE TRADE>
+-> [--strategy | -s] <ENTER THE STRATEGY THAT YOU WANT TO USE>
+      - Strategies available (to be extended):
+        - `ma-price-cross`: Moving Average Price Crossover Strategy
+        - `bb-mean-rev`: Bollinger Band Mean Reversion Strategy (default)
+        - `stochastic-osc-cross`: Stochastic Oscillator Crossover Strategy
+```
+
+
+
+
