@@ -31,6 +31,5 @@ This project is a high-fidelity C++ backtesting engine for simulating algorithmi
 
 ### 1. Clone the Repository
 ```bash
-> git clone https://github.com/Tarrin376/Quant-Backtesting-Engine.git
-> cd Quant-Backtesting-Engine
+> git clone https://github.com/Tarrin376/Quant-Backtesting-Engine.git && cd Quant-Backtesting-Engine
 ```
