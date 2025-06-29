@@ -138,7 +138,7 @@ options:
 These are flags that you can include when running the `market_data_fetcher.py` script to change what historical data is fetched.
 For example:
 ```bash
-python market_data_fetcher.py -s 2023-01-01 -e 2024-01-01 -sym ETH -tf 1Hour`
+python market_data_fetcher.py -s 2023-01-01 -e 2024-01-01 -sym ETH -tf 1Hour
 ```
 
 This will generate a file containing 1 hour OHLCV data from 2023-01-01 to 2024-01-01 for Ethereum.
