@@ -29,6 +29,7 @@ This project is a high-fidelity C++ backtesting engine for simulating algorithmi
 
 ## Project Structure
 
+```
 Quant-Backtesting-Engine/
 ├── src/                  # C++ Source files
 ├── include/              # C++ Header files
@@ -38,6 +39,7 @@ Quant-Backtesting-Engine/
 ├── build/                # Build files (generated)
 ├── CMakeLists.txt        # CMake build configuration
 └── README.md             # This file
+```
 
 ## 🛠️ Getting Started
 
