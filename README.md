@@ -33,7 +33,7 @@ This project is a high-fidelity C++ backtesting engine for simulating algorithmi
 Quant-Backtesting-Engine/
 ├── src/                  # C++ Source files
 ├── include/              # C++ Header files
-├── python_scripts/       # Python scripts for constructing backtesting data and strategy performance visualisation
+├── python_scripts/       # Python scripts for constructing backtesting data and visualising strategy performance
 ├── data/                 # Market data files should be stored here for backtesting
 ├── bin/                  # Compiled executable (generated)
 ├── build/                # Build files (generated)
