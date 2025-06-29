@@ -23,7 +23,7 @@ This project is a high-fidelity C++ backtesting engine for simulating algorithmi
 
 ## ⚙️ Architecture Diagram
 
-![image](https://github.com/user-attachments/assets/17a263c2-2276-46cb-987f-fe3175c0d6ec)
+![Architecture Diagram](https://github.com/user-attachments/assets/f8686553-b644-4205-94f0-906f4c38a38a)
 
 ---
 
