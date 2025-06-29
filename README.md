@@ -172,6 +172,8 @@ Additional flags can be provided to customise your backtest:
         - `stochastic-osc-cross`: Stochastic Oscillator Crossover Strategy
 ```
 
-
+## 📈 Future Improvements
+- Integrate Google Benchmark to perform in-depth analysis on backtesting engine performance (see here: https://github.com/google/benchmark)
+- Implement more complex trading strategies.
 
 
