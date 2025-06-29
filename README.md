@@ -54,7 +54,7 @@ Quant-Backtesting-Engine/
 > cd build
 ```
 
-### 3. Build executable with CMake (the executable should be generated in the /bin directory)
+### 3. Build executable with CMake (the executable will be generated in the /bin directory)
 ```bash
 > cmake ..
 > cmake --build .
