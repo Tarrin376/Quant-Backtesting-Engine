@@ -33,3 +33,8 @@ This project is a high-fidelity C++ backtesting engine for simulating algorithmi
 ```bash
 > git clone https://github.com/Tarrin376/Quant-Backtesting-Engine.git && cd Quant-Backtesting-Engine
 ```
+
+### 2. Create a build directory and move to it
+```bash
+> mkdir build && cd build
+```
