@@ -1,4 +1,4 @@
-# 📈 Quant Backtesting Engine (In Progress)
+# 📈 Quant Backtesting Engine
 
 This project is a high-fidelity C++ backtesting engine for simulating algorithmic trading strategies on 1-minute OHLCV market data.
 
