@@ -36,5 +36,6 @@ This project is a high-fidelity C++ backtesting engine for simulating algorithmi
 
 ### 2. Create a build directory and move to it
 ```bash
-> mkdir build && cd build
+> mkdir build
+> cd build
 ```
