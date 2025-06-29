@@ -27,6 +27,18 @@ This project is a high-fidelity C++ backtesting engine for simulating algorithmi
 
 ---
 
+## Project Structure
+
+Quant-Backtesting-Engine/
+├── src/                  # C++ Source files
+├── include/              # C++ Header files
+├── python_scripts/       # Python scripts for constructing backtesting data and strategy performance visualisation
+├── data/                 # Market data files should be stored here for backtesting
+├── bin/                  # Compiled executable (generated)
+├── build/                # Build files (generated)
+├── CMakeLists.txt        # CMake build configuration
+└── README.md             # This file
+
 ## 🛠️ Getting Started
 
 ### 1. Clone the Repository
@@ -39,3 +51,34 @@ This project is a high-fidelity C++ backtesting engine for simulating algorithmi
 > mkdir build
 > cd build
 ```
+
+### 3. Build executable with CMake (the executable should be generated in the /bin directory)
+```bash
+> cmake ..
+> cmake --build .
+```
+
+### 4. Run the backtesting-engine executable
+```bash
+> cd ../bin
+> ./backtesting-engine.exe
+```
+
+You should see the following output:
+```bash
+===== Backtest Statistics =====
+Initial Capital     : $10000.00
+Final Capital       : $10000.00
+Final Profit/Loss   : $0.00
+Percentage Return   : 0.00%
+Number of Trades    : 0
+Win Rate            : 0.00%
+Winning Positions   : 0
+Losing Positions    : 0
+===============================
+
+Dataset size: 0
+Strategy used: Bollinger Band Mean Reversion
+```
+
+This is expected, as we haven't specified any backtesting data file to use in the /data directory.
